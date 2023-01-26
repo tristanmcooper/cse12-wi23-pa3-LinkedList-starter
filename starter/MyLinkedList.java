@@ -1,15 +1,5 @@
-/** 
- * TODO: Add file header here 
- * Author:
- * Email: 
- * References: 
- */
-
 import java.util.AbstractList;
 
-/** 
- * TODO: Add class header here 
- */
 public class MyLinkedList<E> extends AbstractList<E> {
 
     int size;
