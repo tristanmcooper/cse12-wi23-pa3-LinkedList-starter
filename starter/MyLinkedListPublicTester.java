@@ -80,7 +80,7 @@ public class MyLinkedListPublicTester {
         assertSame("Make sure the referece from head and tail are the same", 
             this.emptyIntegerList.head.next, this.emptyIntegerList.tail.prev);
         assertSame("Added node should have correct previous pointer",
-            this.emptyIntegerList.head.next.prev, this.emptyListInteger.head);
+            this.emptyIntegerList.head.next.prev, this.emptyIntegerList.head);
         assertSame("Added node should have the correct next pointer",
             this.emptyIntegerList.head.next.next, this.emptyIntegerList.tail);
     }
@@ -116,7 +116,7 @@ public class MyLinkedListPublicTester {
             Integer.valueOf(12), this.emptyIntegerList.tail.prev.data);
         assertEquals("Check size is updated", 1, this.emptyIntegerList.size);
         assertSame("Added node should have correct previous pointer",
-            this.emptyIntegerList.head.next.prev, this.emptyListInteger.head);
+            this.emptyIntegerList.head.next.prev, this.emptyIntegerList.head);
         assertSame("Added node should have the correct next pointer",
             this.emptyIntegerList.head.next.next, this.emptyIntegerList.tail);
     }
