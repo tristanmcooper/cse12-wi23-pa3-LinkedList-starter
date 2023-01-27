@@ -23,8 +23,8 @@ Download the starter code from [here](https://github.com/CaoAssignments/cse12-wi
 You will find the following files:
 ```
 +-- PA3
-|   +-- MyLinkedList.java (Empty)                Edit this file
-|   +-- MyLinkedListCustomTester.java (Empty)    Edit this file
+|   +-- MyLinkedList.java                Edit this file
+|   +-- MyLinkedListCustomTester.java    Edit this file
 |   +-- MyLinkedListPublicTester.java
 ```
 
