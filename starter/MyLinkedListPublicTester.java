@@ -99,7 +99,7 @@ public class MyLinkedListPublicTester {
             "Gary Gillespie", oldLastNode.next.data);
         assertEquals("Check size is updated", 4, this.threeStringList.size);
         assertSame("Added node previous should be previous last node",
-            oldLastNode, this.threeStringList.tail.prev);
+            oldLastNode, this.threeStringList.tail.prev.prev);
         assertSame("New added node next should point to tail",
             this.threeStringList.tail.prev.next, this.threeStringList.tail);
     }
