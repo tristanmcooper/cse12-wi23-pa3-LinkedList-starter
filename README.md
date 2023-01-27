@@ -41,6 +41,7 @@ We provide two test files:
 
 **Your task:** Implement the missing unit tests in `MyLinkedListCustomTester.java` based on the description in the Tests table below.
 * Your tests will be graded by checking if they pass on a good implementation and fail on a bad implementation. If a test fails on a good implementation, then the test is written incorrectly. If a test passes on a bad implementation, it may be written incorrectly or may be not be rigorous enough (try adding more asserts).
+* Some of your tests will be run on several bad implementations. You will receive 2 pts for every bad implementation your test fails (if your test also passes on the good implementation).
 * **DO NOT CHANGE THE TEST HEADERS!**
 
 **Tests Table: List of test cases to write and their description**
@@ -59,14 +60,14 @@ We provide two test files:
 **How to compile and run the public tester:**
 
 Running the tester on UNIX based systems (including Mac): 
-- Compile: `javac -cp libs/junit-4.12.jar:libs/hamcrest-core-1.3.jar:. MyLinkedListPublicTester.java`
-- Execute: `java -cp libs/junit-4.12.jar:libs/hamcrest-core-1.3.jar:. org.junit.runner.JUnitCore MyLinkedListPublicTester`
+- Compile: `javac -cp ../libs/junit-4.13.2.jar:../libs/hamcrest-2.2.jar:. MyLinkedListPublicTester.java`
+- Execute: `java -cp ../libs/junit-4.13.2.jar:../libs/hamcrest-2.2.jar:. org.junit.runner.JUnitCore MyLinkedListPublicTester`
 
 Running the tester on Windows systems:
-- Compile: `javac -cp ".;libs\junit-4.12.jar;libs\hamcrest-core-1.3.jar" MyLinkedListPublicTester.java`
-- Execute: `java -cp ".;libs\junit-4.12.jar;libs\hamcrest-core-1.3.jar" org.junit.runner.JUnitCore MyLinkedListPublicTester`
+- Compile: `javac -cp ".;..\libs\junit-4.13.2.jar;..\libs\hamcrest-2.2.jar" MyLinkedListPublicTester.java`
+- Execute: `java -cp ".;..\libs\junit-4.13.2.jar;..\libs\hamcrest-2.2.jar" org.junit.runner.JUnitCore MyLinkedListPublicTester`
 
-To run the custom tester, replace references to `MyLinkedListPublicTester` with `MyLinkedListCustomTester` in the above commands.
+You should run the above commands in the `starter` directory. To run the custom tester, replace references to `MyLinkedListPublicTester` with `MyLinkedListCustomTester` in the above commands.
 
 
 ⚠️**Your code must first compile in order to receive credit for the different test cases. You will receive a zero if your code doesn’t compile.**
@@ -87,8 +88,8 @@ To run the custom tester, replace references to `MyLinkedListPublicTester` with 
 
 
 
-* You **must use "dummy" head and tail nodes** as discussed in class and on zyBooks in this assignment.
-* Do not modify any class header and method signature.
+* You **must use "dummy" head and tail nodes** as discussed in lecture and on zyBooks in this assignment.
+* Do not modify any class header or method signature.
 * DO NOT import and use Java built-in LinkedList. **If we see that you _import java.util.LinkedList;_ you will not receive any credit! ⚠️**
 * You should **NOT** allow **null** objects to be inserted into the list. A NullPointerException should be thrown in this case. This differs from java builtin LinkedList.
 * For full style points, you should use the getters and setters defined in the Node class to access and modify Node objects.  Do not modify or access the Node’s member variables directly.
@@ -98,7 +99,7 @@ To run the custom tester, replace references to `MyLinkedListPublicTester` with 
 ### Node class
 
 
-In the starter code you can see that it uses a nested class (that is, a class inside a class) to represent a node in your linked list. To accomplish this, you can’t declare a Node class as public, but you can include it in the same file (and even in the same class) as MyLinkedList. If it is contained within MyLinkedList&lt;E>, then it can just use the generic label E because it is within the class. 
+In the starter code you can see that it uses a nested class (that is, a class inside a class) to represent a node in your linked list. To accomplish this, you can’t declare a `Node` class as public, but you can include it in the same file (and even in the same class) as `MyLinkedList`. If it is contained within `MyLinkedList<E>`, then it can just use the generic label E because it is within the class. 
 
 
 ### MyLinkedList class
@@ -161,19 +162,19 @@ The following are the methods of the **MyLinkedList** class.
   <tr>
    <td><code>public boolean add(E data)</code>
    </td>
-   <td>Add a node at the end into this list
+   <td>Add a node at the end into this list.
 <p>
-<strong>Note</strong>: the boolean add method will presumably always return true; it is a boolean function due to the method definition in AbstractList
+<strong>Note</strong>: the boolean add method will presumably always return true; it is a boolean function due to the method definition in AbstractList.
    </td>
-   <td>Throw a <code>NullPointerException</code> if data is null
+   <td>Throw a <code>NullPointerException</code> if data is null.
    </td>
   </tr>
   <tr>
    <td><code>public void add(int index, E data)</code>
    </td>
-   <td>Add a node into this list by index. The input index can be any integer in between zero and the number of elements (inclusive on both ends)
+   <td>Add a node into this list by index. The input index can be any integer in between zero and the number of elements (inclusive on both ends).
 <p>
-E.g You have a doubly linked list with a node a, and you want to add a new node into the linked list by calling <code>add</code> with an index as its parameter (Figure 2)
+E.g. You have a doubly linked list with a node <em>a</em>, and you want to add a new node into the linked list by calling <code>add</code> with an index as its parameter.
 <p>
 <em>Example:</em>
 <p>
@@ -187,9 +188,9 @@ head &lt;-> b &lt;-> a &lt;-> tail
 <p>
 head &lt;-> b &lt;-> a &lt;-> c &lt;-> tail
    </td>
-   <td>Throw a <code>NullPointerException</code> if data is null
+   <td>Throw a <code>NullPointerException</code> if data is null.
 <p>
-Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index > number of elements in the list
+Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index > number of elements in the list.
    </td>
   </tr>
   <tr>
@@ -197,15 +198,15 @@ Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index > number
    </td>
    <td>Get data of type E within the node at position index.
    </td>
-   <td>Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index >= number of elements in the list
+   <td>Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index >= number of elements in the list.
    </td>
   </tr>
   <tr>
    <td><code>protected Node getNth(int index)</code>
    </td>
-   <td>A helper method that returns the Node at a specified index, not the content.
+   <td>A helper method that returns the Node at a specified index, not the Node data.
    </td>
-   <td>Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index >= number of elements in the list
+   <td>Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index >= number of elements in the list.
    </td>
   </tr>
   <tr>
@@ -213,9 +214,9 @@ Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index > number
    </td>
    <td>Set the element for the node at the specified index to data and return the element that was previously stored in this node.
    </td>
-   <td>Throw <code>NullPointerException</code> if data is null
+   <td>Throw <code>NullPointerException</code> if data is null.
 <p>
-Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index >= number of elements in the list
+Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index >= number of elements in the list.
    </td>
   </tr>
   <tr>
@@ -223,31 +224,31 @@ Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index >= numbe
    </td>
    <td>Remove the node from the specified index in this list and return the data from the removed node.
    </td>
-   <td>Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index >= number of elements in the list
+   <td>Throw <code>IndexOutOfBoundsException</code> when index &lt; 0 or index >= number of elements in the list.
    </td>
   </tr>
   <tr>
    <td><code>public void clear()</code>
    </td>
-   <td>Remove all nodes from the list
+   <td>Remove all (non-sentinel) nodes from the list.
    </td>
-   <td>None
+   <td>None.
    </td>
   </tr>
   <tr>
    <td><code>public boolean isEmpty()</code>
    </td>
-   <td>Determine if the list is empty
+   <td>Determine if the list is empty.
    </td>
-   <td>None
+   <td>None.
    </td>
   </tr>
   <tr>
    <td><code>public int size()</code>
    </td>
-   <td>Return the number of nodes being stored
+   <td>Return the number of (non-sentinel) nodes stored in the list.
    </td>
-   <td>None
+   <td>None.
    </td>
   </tr>
 </table>
@@ -294,4 +295,4 @@ Submit all of the following files to Gradescope by **Thursday, February 2 @11:59
     * MyLinkedList [75 points]
         * The autograder will test your implementation of MyLinkedList on public tests given in `MyLinkedListPublicTester.java`, hidden test cases described in the Test table, and hidden test cases not described in this PA writeup.
 * **Coding Style** [5 points]
-    * `MyLinkedList.java `will be graded accordingly to the style guide. `MyLinkedListCustomTester.java` will be graded on file/class/method headers.
+    * `MyLinkedList.java` will be graded accordingly to the style guide. `MyLinkedListCustomTester.java` will be graded on file/class/method headers.
