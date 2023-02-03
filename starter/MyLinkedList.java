@@ -353,20 +353,27 @@ public class MyLinkedList<E> extends AbstractList<E> {
             return removedData;
         }
 
+        
+
         else {
             Node currNode = head;
-            for (int i = 0; i < index; i++) {
+            for (int i = 0; i <= index; i++) {
                 currNode = currNode.getNext();
             }
 
             E removedData = (E)currNode.getNext().getElement();
 
             // Skipping over the node to be removed by setting by pointing the 
-            // node before it forward to the node after it.
+            // node be fore it forward to the node after it.
             currNode.getPrev().setNext(currNode.getNext());
 
             // Same as above but backwards.
             currNode.getNext().setPrev(currNode.getPrev());
+
+            // The data in the removed node set to null for testing and garbage
+            // collection. It will still point to the next and previous nodes, 
+            // but they won't point to it.
+            currNode.data = null;
 
             size--;
             return removedData; 

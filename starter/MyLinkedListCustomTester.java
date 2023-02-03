@@ -206,9 +206,18 @@ public class MyLinkedListCustomTester {
 		assertEquals("Size should be decremented", 4, 
 			this.fiveIntegerList.size);
 		assertEquals("Data in node previous to removed node should be" + 
-		"immediately accessible from node after removed node", 
+			"immediately accessible from node after removed node", 
 			node2.data, node4.prev.data);
-		//assertEquals("Data in node after removed node should be accessible from ")
+		assertEquals("Data in node after removed node should be immediately" +
+			"accessible from the node before removed node", 
+			node4.data, node2.next.data);
+		assertSame("Node previous to removed node should point forward to" +
+			"node after removed node", node2.next, node4);
+		assertSame("Node after removed node should point backward to node" +
+			"previous to removed node", node4.prev, node2);
+			
+		assertEquals(null, node3.data);
+
 	}
 
 	/**
