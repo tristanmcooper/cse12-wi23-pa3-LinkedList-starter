@@ -1,3 +1,13 @@
+/*
+ * Name: Tristan Cooper
+ * Email: tmcooper@ucsd.edu
+ * PID: A17085814
+ * Sources used: MyLinkedListPublicTester.java starter code for reference
+ * 
+ * This file, MyLinkedListCustomTester.java, contains the custom (hidden) 
+ * tests for MyLinkedList.java using JUnit.
+ */
+
 
 /**
  * IMPORTANT: Do not change the method headers. Your tests will be run against
@@ -9,9 +19,10 @@
 import static org.junit.Assert.*;
 import org.junit.*;
 
+/**
+ * This class contains the custom tests for MyLinkedList.java 
+ */
 public class MyLinkedListCustomTester {
-
-	// Optional: add test variables here
 
 	private MyLinkedList<Integer> fiveIntegerList;
 	private Integer[] intData = {1, 2, 3, 4, 5};
@@ -37,6 +48,12 @@ public class MyLinkedListCustomTester {
 		twoStringList = new MyLinkedList<String>();
 	}
 
+	/**
+	 * This idea for this method was copied from MyLinkedListPublicTester.java
+	 * Has a similar effect as @Before, as it's called in tester 
+	 * methods before calling their respective methods to test so that other 
+	 * tests aren't affected by data changes.
+	 */
 	private void populateLinkedList() {
 		this.emptyStringList.head.next = this.emptyStringList.tail;
 		this.emptyStringList.tail.prev = this.emptyStringList.head;
@@ -224,8 +241,29 @@ public class MyLinkedListCustomTester {
 	 * Aims to test the set(int index, E data) method.
 	 * Set an out-of-bounds index with a valid data argument.
 	 */
-	@Test
+	@Test (expected = IndexOutOfBoundsException.class)
 	public void testCustomSetIdxOutOfBounds() {
-		// TODO: add your test here
+		this.populateLinkedList();
+		this.threeStringList.set(99, "out of bounds element");
+		this.fiveIntegerList.set(-1, 99);
+	}
+
+	/**
+	 * TESTER I ADDED TO STARTER CODE:
+	 * Aims to test the set(int index, E data) method.
+	 * Set the last index with a valid data argument.
+	 */
+	@Test
+	public void testCustomSetLastIdx() {
+		this.populateLinkedList();
+		MyLinkedList<Integer>.Node intNode4 = 
+			this.fiveIntegerList.tail.prev.prev;
+		this.fiveIntegerList.set(4, 99);
+		assertSame("Node before the one replaced should point to new node", 
+			this.fiveIntegerList.tail.prev, intNode4.next);
+		assertSame("New node should point backward to the node before it", 
+			this.fiveIntegerList.tail.prev.prev, intNode4);
+		assertEquals("New node should contain new data", 
+			99, (int)this.fiveIntegerList.tail.prev.data);
 	}
 }

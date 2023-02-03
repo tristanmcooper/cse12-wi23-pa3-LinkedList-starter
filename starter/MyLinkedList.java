@@ -32,8 +32,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
     // Put private static final variables here for constants:
 
-
-
     // NESTED CLASS
     /**
      * A Node class that holds data and references to previous and next Nodes.
@@ -101,7 +99,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
         } 
     }
 
-    //  Implementation of the MyLinkedList Class
 
     /** 
      * No-arg constructor that creates an empty list by setting size to zero,
@@ -142,20 +139,26 @@ public class MyLinkedList<E> extends AbstractList<E> {
         }
 
         if (index == 0) {
+            // Typecasting return statements is likely not necessary, but used 
+            // just in case.
             return (E)head.getNext().getElement();
         }
 
+        // Reference node to move through list. 
+        // NOTE: not creating a new node.
         Node currNode = head;
-        for (int i = 0; i < index; i++) {
+
+        // Looping through list to find the node at the index.
+        for (int i = 0; i <= index; i++) {
+            // Moving forward through list.
             currNode = currNode.getNext();
         }
-        return (E)currNode.getNext().getElement();
+
+        return (E)currNode.getElement();
     }
 
     /**
      * Adds a node at the specified index from zero to size.
-     * Throws a NullPointerException if the data is null.
-     * Throws an IndexOutOfBoundsException if the index is out of bounds.
      * @param index the specific index to add the node at.
      * @param data the data contained in the added node.
      */
@@ -183,11 +186,12 @@ public class MyLinkedList<E> extends AbstractList<E> {
             // The head's next node becomes the new node.
             head.setNext(newNode);
 
-            // Head becomes the new node's previous node.
+            // The newNode points backwards to the head.
             newNode.setPrev(head);
 
             // New node's next node needs to point backwards to the new node.
             newNode.getNext().setPrev(newNode);
+
             size++;
         }
 
@@ -217,8 +221,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
             for (int i = 0; i < index; i++) {
                 // Moving forward through list.
                 currNode = currNode.getNext();
-                // // Setting previous is likely unnecessary.
-                // currNode.setPrev(currNode.getPrev());
+
+                // Setting previous is unnecessary, but included for potential 
+                // rare edge cases.
+                currNode.setPrev(currNode.getPrev());
             }
 
             // The new node's next node becomes the current node's next node.
@@ -275,7 +281,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
             // The tail's previous node becomes the new node.
             tail.setPrev(newNode);
 
-            // Tail becomes the new node's next node.
+            // The new node's next node becomes the tail.
             newNode.setNext(tail);
 
             // New node's previous node needs to point forward to the new node.
@@ -310,11 +316,13 @@ public class MyLinkedList<E> extends AbstractList<E> {
         // Overwriting the previous data with the new data.
         currNode.getNext().setElement(data);
 
+        currNode.data = null;
+
         return previousData;
     }
 
     /**
-     * Removes the node at a specified index and returns the data of the node it
+     * Removes the node at a specific index and returns the data of the node it
      * just removed.
      * @param index the index of the node to remove.
      * @return the data of the node that was removed.
@@ -352,8 +360,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
             size--;
             return removedData;
         }
-
-        
 
         else {
             Node currNode = head;
