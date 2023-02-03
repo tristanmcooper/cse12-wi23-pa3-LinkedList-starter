@@ -376,10 +376,12 @@ public class MyLinkedList<E> extends AbstractList<E> {
             // Same as above but backwards.
             currNode.getNext().setPrev(currNode.getPrev());
 
-            // The data in the removed node set to null for testing and garbage
-            // collection. It will still point to the next and previous nodes, 
-            // but they won't point to it.
-            currNode.data = null;
+            // // The data in the removed node set to null for testing and garbage
+            // // collection. It will still point to the next and previous nodes, 
+            // // but they won't point to it.
+            // currNode.data = null;
+            // currNode.setNext(null);
+            // currNode.setPrev(null);
 
             size--;
             return removedData; 
