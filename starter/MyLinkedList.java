@@ -306,8 +306,28 @@ public class MyLinkedList<E> extends AbstractList<E> {
             throw new IndexOutOfBoundsException();
         }
 
+        if (index == 0) {
+            // Storing the old data to return.
+            E previousData = (E)head.getNext().getElement();
+
+            // Overwriting the previous data with the new data.
+            head.getNext().setElement(data);
+
+            return previousData;
+        }
+
+        if (index == size - 1) {
+            // Storing the old data to return.
+            E previousData = (E)tail.getPrev().getElement();
+
+            // Overwriting the previous data with the new data.
+            tail.getPrev().setElement(data);
+
+            return previousData;
+        }
+
         Node currNode = head;
-        for (int i = 0; i < index; i++) {
+        for (int i = 0; i <= index; i++) {
             currNode = currNode.getNext();
         }
         // Storing the old data to return.

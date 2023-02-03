@@ -125,17 +125,28 @@ public class MyLinkedListCustomTester {
 
 		assertEquals("Size should be incremented", 6, 
 			this.fiveIntegerList.size);
-		assertEquals("New node should be accessible from the tail", 
-			Integer.valueOf(6), this.fiveIntegerList.tail.prev.data);
-
 		assertEquals("Tail should point back to the new node", 
 			Integer.valueOf(6), this.fiveIntegerList.tail.prev.data);
 		assertEquals("New node should point back to the previous last node", 
 			this.fiveIntegerList.tail.prev.prev.data, oldLastNode.data);
+		assertSame("New node should point back to the previous last node", 
+			this.fiveIntegerList.tail.prev.prev, oldLastNode);
 		assertEquals("Previous last node should point forward to the new node", 
 			oldLastNode.next.data, this.fiveIntegerList.tail.prev.data);
 		assertSame("Previous last node next next should be tail",
             oldLastNode.next.next, this.fiveIntegerList.tail);
+		assertSame("The node after the old last node should be the new one",
+			oldLastNode.next, this.fiveIntegerList.tail.prev);
+	}
+
+	/**
+	 * TESTER I ADDED TO STARTER CODE:
+	 * Aims to test the add(E data) method with a null argument.
+	 */
+	@Test (expected = NullPointerException.class)
+	public void testCustomAddNull() {
+		this.populateLinkedList();
+		this.fiveIntegerList.add(null);
 	}
 
 	/**
@@ -263,6 +274,6 @@ public class MyLinkedListCustomTester {
 		assertSame("New node should point backward to the node before it", 
 			this.fiveIntegerList.tail.prev.prev, intNode4);
 		assertEquals("New node should contain new data", 
-			99, (int)this.fiveIntegerList.tail.prev.data);
+			Integer.valueOf(99), this.fiveIntegerList.tail.prev.data);
 	}
 }
