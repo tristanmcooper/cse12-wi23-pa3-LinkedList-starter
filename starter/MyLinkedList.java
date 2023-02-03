@@ -331,10 +331,10 @@ public class MyLinkedList<E> extends AbstractList<E> {
             currNode = currNode.getNext();
         }
         // Storing the old data to return.
-        E previousData = (E)currNode.getNext().getElement();
+        E previousData = (E)currNode.getElement();
 
         // Overwriting the previous data with the new data.
-        currNode.getNext().setElement(data);
+        currNode.setElement(data);
 
         currNode.data = null;
 
