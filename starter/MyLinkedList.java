@@ -2,10 +2,15 @@ import java.util.AbstractList;
 
 public class MyLinkedList<E> extends AbstractList<E> {
 
-    int size;
-    Node head;
-    Node tail;
+    int size; // Keep track of the number of nodes in the LL
+    Node head; // Reference to the sentinel head of LL
+    Node tail; // Reference to the sentinel tail of LL
 
+    // Put private static final variables here for constants:
+
+
+
+    // NESTED CLASS
     /**
      * A Node class that holds data and references to previous and next Nodes.
      */
@@ -74,10 +79,25 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
     //  Implementation of the MyLinkedList Class
     /** Only 0-argument constructor is defined */
+
+    /** 
+     * No-arg constructor that creates an empty list by setting size to zero,
+     * then initializing the head and tail sentinel nodes to null and making 
+     * them point to each other.
+     */
     public MyLinkedList() {
-        /* Add your implementation here */
-        // TODO
+        // Sentinel nodes don't count as part of the size.
+        this.size = 0;
+
+        // Head and tail are null in empty list.
+        this.head = new Node(null);
+        this.tail = new Node(null);
+
+        // Head and tail to point to each other in empty list.
+        head.setNext(tail);
+        tail.setPrev(head);
     }
+
 
     @Override
     public int size() {
@@ -85,38 +105,288 @@ public class MyLinkedList<E> extends AbstractList<E> {
         return 0; // TODO
     }
 
+    /**
+     * Returns the element (data stored in the node) at the specified index.
+     * @param index the index of the element to return.
+     * @return the element at the specified index.
+     */
     @Override
     public E get(int index) {
-        return (E) null;  // TODO
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (index == 0) {
+            return (E)head.getNext().getElement();
+        }
+
+        Node currNode = head;
+        for (int i = 0; i < index; i++) {
+            currNode = currNode.getNext();
+        }
+        return (E)currNode.getNext().getElement();
     }
 
+    /**
+     * Adds a node at the specified index from zero to size.
+     * Throws a NullPointerException if the data is null.
+     * Throws an IndexOutOfBoundsException if the index is out of bounds.
+     * @param index the specific index to add the node at.
+     * @param data the data contained in the added node.
+     */
     @Override
     public void add(int index, E data) {
-        /* Add your implementation here */
-        // TODO
+        if (data == null) {
+            throw new NullPointerException();
+        }
+        if (index < 0 || index > size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        Node newNode = new Node(data);
+
+        // Checking for empty list.
+        if (size == 0) {
+            add(data);
+        }
+
+        // Checking for adding to the front of the list.
+        else if (index == 0) {
+            // The new node's next node becomes the head's old next node.
+            newNode.setNext(head.getNext());
+
+            // The head's next node becomes the new node.
+            head.setNext(newNode);
+
+            // Head becomes the new node's previous node.
+            newNode.setPrev(head);
+
+            // New node's next node needs to point backwards to the new node.
+            newNode.getNext().setPrev(newNode);
+            size++;
+        }
+
+        // Checking for adding to the end of the list.
+        else if (index == size) {
+            // The new node's previous node becomes the tail's previous node.
+            newNode.setPrev(tail.getPrev());
+
+            // The tail's previous node becomes the new node.
+            tail.setPrev(newNode);
+
+            // Tail becomes the new node's next node.
+            newNode.setNext(tail);
+
+            // New node's previous node needs to point forward to the new node.
+            newNode.getPrev().setNext(newNode);
+
+            size++;
+        }
+
+        else {
+            // Reference node to move through list. 
+            // NOTE: not creating a new node.
+            Node currNode = head;
+
+            // Looping through list to find the node at the index.
+            for (int i = 0; i < index; i++) {
+                // Moving forward through list.
+                currNode.setNext(currNode.getNext());
+                // Setting previous is likely unnecessary.
+                currNode.setPrev(currNode.getPrev());
+            }
+
+            // The new node's next node becomes the current node's next node.
+            newNode.setNext(currNode.getNext());
+
+            // The current node's next node becomes the new node.
+            currNode.setNext(newNode);
+
+            // Current node becomes the new node's previous node.
+            newNode.setPrev(currNode);
+
+            newNode.getPrev().setNext(newNode);
+            
+            // New node's next node needs to point backwards to the new node.
+            newNode.getNext().setPrev(newNode);
+            size++;
+        }
+        // Not incrementing size at fallthrough here because calling add(data) 
+        // for empty list increments size on it's own.
     }
 
+    /**
+     * Adds a node at the end of the list.
+     * Throws a NullPointerException if the data is null.
+     * @return will always return true.
+     */
     public boolean add(E data) {
-        return true; // TODO
+        if (data == null) {
+            throw new NullPointerException();
+        }
+        // Creating the new node to store the data.
+        Node newNode = new Node(data);
+
+        // Checking for empty list.
+        if (size == 0) {
+            // Head points forward to new node instead of tail.
+            head.setNext(newNode);
+
+            // New node points backwards to head.
+            newNode.setPrev(head);
+
+            // New node points forward to tail.
+            newNode.setNext(tail);
+
+            // Tail points backwards to new node instead of head.
+            tail.setPrev(newNode);
+        }
+
+        // Non empty
+        else {
+            // The new node's previous node becomes the tail's previous node.
+            newNode.setPrev(tail.getPrev());
+
+            // The tail's previous node becomes the new node.
+            tail.setPrev(newNode);
+
+            // Tail becomes the new node's next node.
+            newNode.setNext(tail);
+
+            // New node's previous node needs to point forward to the new node.
+            newNode.getPrev().setNext(newNode);
+        }
+        size++;
+        return true; 
     }
 
+    /**
+     * Sets the data stored in the node at the specified index to the data in 
+     * the argument and returns the data that was previously stored in that node
+     * @param index the index of the node to set the data of.
+     * @param data the data to set the node at the specified index to.
+     * @return the data that was previously stored that node.
+     */
     public E set(int index, E data) {
-        return (E) null; // TODO
+        if (data == null) {
+            throw new NullPointerException();
+        }
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        Node currNode = head;
+        for (int i = 0; i < index; i++) {
+            currNode = currNode.getNext();
+        }
+        // Storing the old data to return.
+        E previousData = (E)currNode.getNext().getElement();
+
+        // Overwriting the previous data with the new data.
+        currNode.getNext().setElement(data);
+
+        return previousData;
     }
 
+    /**
+     * Removes the node at a specified index and returns the data of the node it
+     * just removed.
+     * @param index the index of the node to remove.
+     * @return the data of the node that was removed.
+     */
     public E remove(int index) {
-        return (E) null; // TODO
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        // Removing the first element in the list.
+        if (index == 0) {
+            // Storing the data of first element to be returned later
+            E removedData = (E)head.getNext().getElement();
+
+            // Pointing the head past the first element.
+            head.setNext(head.getNext().getNext());
+
+            // Pointing the new first element backwards to the head.
+            head.getNext().setPrev(head);
+
+            size--;
+            return removedData;
+        }
+
+        // Removing the last element in the list.
+        else if (index == size) {
+            // Storing the data of last element to be returned later.
+            E removedData = (E)tail.getPrev().getElement();
+
+            // Pointing the tail one node behind the last element.
+            tail.setPrev(tail.getPrev().getPrev());
+
+            // Pointing the new last element forward to the tail.
+            tail.getPrev().setNext(tail);
+            size--;
+            return removedData;
+        }
+
+        else {
+            Node currNode = head;
+            for (int i = 0; i < index; i++) {
+                currNode = currNode.getNext();
+            }
+
+            E removedData = (E)currNode.getNext().getElement();
+
+            // Skipping over the node to be removed by setting by pointing the 
+            // node before it forward to the node after it.
+            currNode.getPrev().setNext(currNode.getNext());
+
+            // Same as above but backwards.
+            currNode.getNext().setPrev(currNode.getPrev());
+
+            size--;
+            return removedData; 
+        }
     }
 
+    /*
+     * Removes all nodes from the list except the head and tail (sentinels).
+     */
     public void clear() {
-        /* Add your implementation here */
+        head.setNext(tail);
+        tail.setPrev(head);
+        size = 0;
     }
 
+    /**
+     * Determines if the list is empty.
+     * @return true if the list is empty, false if it's not.
+     */
     public boolean isEmpty() {
-        return true;  // TODO
+        if (size == 0) {
+            return true;
+        }
+        return false;
     }
 
+    /**
+     * Returns the node at the specified index.
+     * @param index the index of the node to return.
+     * @return the node at the specified index.
+     */
     protected Node getNth(int index) {
-        return (Node) null;  // TODO
+        if (index < 0 || index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+
+        if (index == 0) {
+            return (Node) head.getNext();
+        }
+
+        Node currNode = head;
+        for (int i = 0; i < index; i++) {
+            currNode = currNode.getNext();
+        }
+
+        return (Node) currNode.getNext();
     }
 }
