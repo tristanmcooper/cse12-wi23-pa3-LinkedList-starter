@@ -216,9 +216,9 @@ public class MyLinkedList<E> extends AbstractList<E> {
             // Looping through list to find the node at the index.
             for (int i = 0; i < index; i++) {
                 // Moving forward through list.
-                currNode.setNext(currNode.getNext());
-                // Setting previous is likely unnecessary.
-                currNode.setPrev(currNode.getPrev());
+                currNode = currNode.getNext();
+                // // Setting previous is likely unnecessary.
+                // currNode.setPrev(currNode.getPrev());
             }
 
             // The new node's next node becomes the current node's next node.

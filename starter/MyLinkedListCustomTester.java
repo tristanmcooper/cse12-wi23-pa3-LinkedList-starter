@@ -21,6 +21,9 @@ public class MyLinkedListCustomTester {
 	private MyLinkedList<String> threeStringList;
 	private String[] strData = {"Tristan Cooper", "CSE 12", "Revelle College"};
 
+	private MyLinkedList<String> twoStringList;
+	private String[] twoStrData = {"beginning", "end"};
+
 	/**
 	 * This sets up the test fixture. JUnit invokes this method before
 	 * every testXXX method. The @Before tag tells JUnit to run this method
@@ -31,11 +34,25 @@ public class MyLinkedListCustomTester {
 		fiveIntegerList = new MyLinkedList<Integer>();
 		emptyStringList = new MyLinkedList<String>();
 		threeStringList = new MyLinkedList<String>();
+		twoStringList = new MyLinkedList<String>();
 	}
 
 	private void populateLinkedList() {
 		this.emptyStringList.head.next = this.emptyStringList.tail;
 		this.emptyStringList.tail.prev = this.emptyStringList.head;
+
+		MyLinkedList<String>.Node twoStrNode0 = 
+			this.twoStringList.new Node(this.twoStrData[0]);
+		MyLinkedList<String>.Node twoStrNode1 = 
+			this.twoStringList.new Node(this.twoStrData[1]);
+		this.twoStringList.head.next = twoStrNode0;
+		twoStrNode0.prev = this.twoStringList.head;
+		twoStrNode0.next = twoStrNode1;
+		twoStrNode1.prev = twoStrNode0;
+		twoStrNode1.next = this.twoStringList.tail;
+		this.twoStringList.tail.prev = twoStrNode1;
+		this.twoStringList.size = 2;
+
 
 		MyLinkedList<String>.Node strNode0 =  
 			this.threeStringList.new Node(this.strData[0]);
@@ -85,7 +102,23 @@ public class MyLinkedListCustomTester {
 	 */
 	@Test
 	public void testCustomAdd() {
-		// TODO: add your test here
+		this.populateLinkedList();
+		MyLinkedList<Integer>.Node oldLastNode = this.fiveIntegerList.tail.prev;
+		this.fiveIntegerList.add(6);
+
+		assertEquals("Size should be incremented", 6, 
+			this.fiveIntegerList.size);
+		assertEquals("New node should be accessible from the tail", 
+			Integer.valueOf(6), this.fiveIntegerList.tail.prev.data);
+
+		assertEquals("Tail should point back to the new node", 
+			Integer.valueOf(6), this.fiveIntegerList.tail.prev.data);
+		assertEquals("New node should point back to the previous last node", 
+			this.fiveIntegerList.tail.prev.prev.data, oldLastNode.data);
+		assertEquals("Previous last node should point forward to the new node", 
+			oldLastNode.next.data, this.fiveIntegerList.tail.prev.data);
+		assertSame("Previous last node next next should be tail",
+            oldLastNode.next.next, this.fiveIntegerList.tail);
 	}
 
 	/**
@@ -94,7 +127,21 @@ public class MyLinkedListCustomTester {
 	 */
 	@Test
 	public void testCustomAddIdxToStart() {
-		// TODO: add your test here
+		this.populateLinkedList();
+
+		MyLinkedList<String>.Node oldFirstNode = this.threeStringList.head.next;
+		this.threeStringList.add(0, "Point Loma");
+
+		assertEquals("Size should be incremented", 4, 
+			this.threeStringList.size);
+		assertEquals("New node should be accessible from the head", 
+			"Point Loma", this.threeStringList.head.next.data);
+		assertSame("Old first node should point backward to the new node", 
+			oldFirstNode.prev, this.threeStringList.head.next);
+		assertSame("Old node should be accessible from the new node", 
+			this.threeStringList.head.next.next, oldFirstNode);
+		assertSame("New node should point backward to the head", 
+			this.threeStringList.head.next.prev, this.threeStringList.head);	
 	}
 
 	/**
@@ -103,15 +150,40 @@ public class MyLinkedListCustomTester {
 	 */
 	@Test
 	public void testCustomAddIdxToMiddle() {
-		// TODO: add your test here
+		this.populateLinkedList();
+		this.twoStringList.add(1, "middle");
+		MyLinkedList<String>.Node endNode = 
+			this.twoStringList.tail.prev;
+		MyLinkedList<String>.Node beginningNode = 
+			this.twoStringList.head.next;
+
+		assertEquals("Size should be incremented", 3, 
+			this.twoStringList.size);
+		assertEquals("New node should be accessible from the beginning node", 
+			"middle", beginningNode.next.data);
+		assertSame("Middle node should be after the beginning node", 
+			beginningNode.next, this.twoStringList.head.next.next);
+		assertSame("Middle node should be before the end node", 
+			endNode.prev, this.twoStringList.head.next.next);
+		assertEquals("New node should be accessible from the end node", 
+			"middle", endNode.prev.data);
+		assertEquals("Middle node should be accessible from the tail", 
+			"middle", this.twoStringList.tail.prev.prev.data);
 	}
 
 	/**
 	 * Aims to test the remove(int index) method. Remove from an empty list.
 	 */
-	@Test
+	@Test (expected = IndexOutOfBoundsException.class)
 	public void testCustomRemoveFromEmpty() {
-		// TODO: add your test here
+		this.populateLinkedList();
+		// Can't remove from an empty list
+		this.emptyStringList.remove(0);
+		// Can't remove from a negative index
+		this.emptyStringList.remove(-1);
+		// Can't remove from an index greater than the size
+		this.emptyStringList.remove(99);
+		assertEquals(this.emptyStringList.size, 0);
 	}
 
 	/**
@@ -120,7 +192,23 @@ public class MyLinkedListCustomTester {
 	 */
 	@Test
 	public void testCustomRemoveFromMiddle() {
-		// TODO: add your test here
+		this.populateLinkedList();
+		MyLinkedList<Integer>.Node node2 = 
+			this.fiveIntegerList.head.next.next;
+		MyLinkedList<Integer>.Node node3 = 
+			this.fiveIntegerList.head.next.next.next;
+		MyLinkedList<Integer>.Node node4 = 
+			this.fiveIntegerList.tail.prev.prev;
+
+		// Aiming to remove "3" from the middle of the list
+		this.fiveIntegerList.remove(2);
+
+		assertEquals("Size should be decremented", 4, 
+			this.fiveIntegerList.size);
+		assertEquals("Data in node previous to removed node should be" + 
+		"immediately accessible from node after removed node", 
+			node2.data, node4.prev.data);
+		//assertEquals("Data in node after removed node should be accessible from ")
 	}
 
 	/**
