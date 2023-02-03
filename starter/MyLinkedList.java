@@ -1,5 +1,29 @@
+/*
+ * Name: Tristan Cooper
+ * Email: tmcooper@ucsd.edu
+ * PID: A17085814
+ * Sources used: The notes I took on Week 3 Slides and Section 3.1 from ZyBooks
+ * 
+ * This file, MyLinkedList.java contains a generic class containing the 
+ * attributes of a Double Linked List, as well as a nested class that contains
+ * the attributes of a Node in the Double Linked List. 
+ */
+
 import java.util.AbstractList;
 
+/**
+ * This generic class inherits from the AbstractList class that is a part of the 
+ * Java Collections Framework. This means that some of the methods in 
+ * MyLinkedList must use the @override keyword.
+ * This class contains methods allowing a user to interact with the list, 
+ * adding and removing elements, returning information about the list, etc.
+ * 
+ * Instance variables: (these won't come up until future PAs)
+ * size - An int representing the number of valid elements in the list, not 
+ * including the sentinel nodes.
+ * head - A Node representing the sentinel head of the list.
+ * tail - A Node representing the sentinel tail of the list.
+ */
 public class MyLinkedList<E> extends AbstractList<E> {
 
     int size; // Keep track of the number of nodes in the LL
@@ -78,7 +102,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
     }
 
     //  Implementation of the MyLinkedList Class
-    /** Only 0-argument constructor is defined */
 
     /** 
      * No-arg constructor that creates an empty list by setting size to zero,
@@ -98,11 +121,13 @@ public class MyLinkedList<E> extends AbstractList<E> {
         tail.setPrev(head);
     }
 
-
+    /**
+     * Returns the "size" of the list.
+     * @return the number of non-sentinel nodes in the list.
+     */
     @Override
     public int size() {
-        // need to implement the size method
-        return 0; // TODO
+        return size;
     }
 
     /**
@@ -310,12 +335,12 @@ public class MyLinkedList<E> extends AbstractList<E> {
             // Pointing the new first element backwards to the head.
             head.getNext().setPrev(head);
 
-            size--;
+            size --;
             return removedData;
         }
 
         // Removing the last element in the list.
-        else if (index == size) {
+        else if (index == size - 1) {
             // Storing the data of last element to be returned later.
             E removedData = (E)tail.getPrev().getElement();
 
