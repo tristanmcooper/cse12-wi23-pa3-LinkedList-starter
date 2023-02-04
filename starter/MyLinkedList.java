@@ -30,7 +30,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
     Node head; // Reference to the sentinel head of LL
     Node tail; // Reference to the sentinel tail of LL
 
-    // Put private static final variables here for constants:
 
     // NESTED CLASS
     /**
@@ -98,7 +97,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
             return this.data;
         } 
     }
-
 
     /** 
      * No-arg constructor that creates an empty list by setting size to zero,
@@ -248,7 +246,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
 
     /**
      * Adds a node at the end of the list.
-     * Throws a NullPointerException if the data is null.
      * @return will always return true.
      */
     public boolean add(E data) {
@@ -336,8 +333,6 @@ public class MyLinkedList<E> extends AbstractList<E> {
         // Overwriting the previous data with the new data.
         currNode.setElement(data);
 
-        currNode.data = null;
-
         return previousData;
     }
 
@@ -396,12 +391,11 @@ public class MyLinkedList<E> extends AbstractList<E> {
             // Same as above but backwards.
             currNode.getNext().setPrev(currNode.getPrev());
 
-            // // The data in the removed node set to null for testing and garbage
-            // // collection. It will still point to the next and previous nodes, 
-            // // but they won't point to it.
-            // currNode.data = null;
-            // currNode.setNext(null);
-            // currNode.setPrev(null);
+            // The data in the removed node set to null for testing and garbage
+            // collection. 
+            currNode.data = null;
+            currNode.setNext(null);
+            currNode.setPrev(null);
 
             size--;
             return removedData; 
