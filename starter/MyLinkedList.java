@@ -11,6 +11,13 @@
 
 import java.util.AbstractList;
 
+
+// Imports for PA4 ListIterator:
+import java.util.NoSuchElementException;
+import java.util.ListIterator;
+import java.util.Iterator;
+
+
 /**
  * This generic class inherits from the AbstractList class that is a part of the 
  * Java Collections Framework. This means that some of the methods in 
@@ -382,7 +389,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 currNode = currNode.getNext();
             }
 
-            E removedData = (E)currNode.getNext().getElement();
+            E removedData = (E)currNode.getElement();
 
             // Skipping over the node to be removed by setting by pointing the 
             // node be fore it forward to the node after it.
@@ -442,5 +449,172 @@ public class MyLinkedList<E> extends AbstractList<E> {
         }
 
         return (Node) currNode.getNext();
+    }
+
+
+    protected class MyListIterator implements ListIterator<E> {
+
+        // Class variables
+        Node left;
+        Node right;
+        int idx;
+
+        // True after calling next(). 
+        // False after calling previous().
+        boolean forward; 
+
+        // True after next() or previous(). 
+        // False after add() or remove().
+        boolean canRemoveOrSet; 
+
+
+        /**
+         * Constructor for the MyListIterator class used to initialize the 
+         * iterator.
+         * EXCEPTIONS: None.
+         */
+        public MyListIterator() {
+            left = head;
+            right = head.getNext();
+            idx = 0;
+            forward = false;
+            canRemoveOrSet = false;
+        }
+
+        /**
+         * Returns true if there is an element node when going in the forward 
+         * (head to tail) direction from the current iterator position.
+         * Sentinel (dummy) nodes do not count as element nodes.
+         * EXCEPTIONS: None.
+         * @return true if there is an element node when moving forward. 
+         *         false, otherwise.
+         */
+        public boolean hasNext() {
+            // There is a next node (not at the end of the list)
+            if (right != tail) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * Return the next element in the list when going forward, and move the 
+         * iterator forward by one node.
+         * EXCEPTIONS: NoSuchElementException if there is no next element.
+         * @return the next element in the list.
+         */
+        public E next() {
+            if (hasNext()) {
+                left = right;
+                right = right.getNext();
+
+                canRemoveOrSet = true;
+                forward = true;
+
+                idx++;
+
+                return (E) left.getElement();
+            }
+            // If there isn't a next element, fallthrough to the exception.
+            throw new NoSuchElementException();
+        }
+
+        /**
+         * Returns true if there is an element node when going in the backward 
+         * (tail to head) direction from the current iterator position.
+         * Sentinel (dummy) nodes do not count as element nodes.
+         * EXCEPTIONS: None.
+         * @return true if there is an element node when moving backward. 
+         *         false, otherwise.
+         */
+        public boolean hasPrevious() {
+            if (left != head) {
+                return true;
+            }
+            return false;
+        }
+
+        /**
+         * Return the previous element in the list when going backward, and move 
+         * the iterator backward by one node.
+         * EXCEPTIONS: NoSuchElementException if there is no previous element.
+         * @return the previous element in the list.
+         */
+        public E previous() {
+            if (hasPrevious()) {
+                right = left;
+                left = left.getPrev();
+
+                canRemoveOrSet = true;
+                forward = false;
+
+                idx--;
+
+                return (E) right.getElement();
+            }
+            // If there isn't a previous element, fallthrough to the exception.
+            throw new NoSuchElementException();
+        }
+
+        /**
+         * Returns the index of the element that would be returned by a call to 
+         * next(). Returns the list size if at the end of the list.
+         * EXCEPTIONS: None.
+         * @return see above
+         */
+        public int nextIndex() {
+            return idx;
+        }
+
+        /**
+         * Returns the index of the element that would be returned by a call to 
+         * previous(). Returns -1 if at the start of the list.
+         * EXCEPTIONS: None.
+         * @return see above
+         */
+        public int previousIndex() {
+            return idx - 1;
+        }
+
+        /**
+         * Insert the given item into the list immediately before the element 
+         * that would be return by next().
+         * If we call previous() immediately following add(), the newly added 
+         * item would be returned.
+         * The value of the current index of the list iterator is increased by 
+         * one.
+         * EXCEPTIONS: NullPointerException if element is null.
+         */
+        public void add(E element) {
+            if (element == null) {
+                throw new NullPointerException();
+            }
+
+            Node newNode = new Node(element, left, right);
+
+            left.setNext(newNode);
+            right.setPrev(newNode);
+
+            left = newNode;
+            canRemoveOrSet = false;
+            size++;
+        }
+
+        /**
+         * For the node returned by the most recent next()/previous() call,
+         * replace its value with the new value element.
+         * EXCEPTIONS: - NullPointerException if element is null.
+         *             - IllegalStateException if neither next() nor previous()
+         *                  were called, or if add() or remove() have been
+         *                  called since the most recent next()/previous() call.
+         * @param element the new value for the node being set.
+         */
+        public void set(E element) {
+
+        }
+
+
+
+
     }
 }
