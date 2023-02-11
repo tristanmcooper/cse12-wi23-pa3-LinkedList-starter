@@ -590,7 +590,7 @@ public class MyLinkedList<E> extends AbstractList<E> {
                 throw new NullPointerException();
             }
 
-            Node newNode = new Node(element);
+            Node newNode = new Node(element, left, right);
 
             left.setNext(newNode);
             right.setPrev(newNode);
